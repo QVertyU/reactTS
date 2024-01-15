@@ -1,16 +1,21 @@
 import {useDispatch, useSelector} from "react-redux";
 import {RootState, AppDispatch} from "../state/store.ts";
 import {authUser} from "../state/auth/authSlice.ts";
+import {useEffect} from "react";
 import {useNavigate} from "react-router-dom";
 export default function Login() {
-    const user = useSelector((state: RootState) => state.auth);
+    const isUserAuth = useSelector((state: RootState) => state.auth.authorized);
     const dispatch = useDispatch<AppDispatch>();
     const navigate = useNavigate();
 
+    useEffect(() => {
+        if (isUserAuth) {
+            navigate('/')
+        }
+    });
+
     const login = () => {
-        dispatch(authUser);
-        navigate('/asdasddasd');
-        console.log(user);
+        dispatch(authUser());
     }
 
     return (
@@ -67,10 +72,6 @@ export default function Login() {
                                 />
                             </div>
                         </div>
-
-                        <div>
-
-                        </div>
                     </form>
                     <button
                         onClick={() => {
@@ -80,13 +81,6 @@ export default function Login() {
                     >
                         Sign in
                     </button>
-
-                    <p className="mt-10 text-center text-sm text-gray-500">
-                        Not a member?{' '}
-                        <a href="#" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
-                            Start a 14 day free trial
-                        </a>
-                    </p>
                 </div>
             </div>
         </>
