@@ -1,9 +1,14 @@
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
-import axios from "axios";
+import axios, {AxiosError} from "axios";
 
 interface AuthState {
     authorized: boolean,
     user: object,
+}
+
+interface data {
+    password: string,
+    email: string,
 }
 
 const initialState: AuthState = {
@@ -11,35 +16,52 @@ const initialState: AuthState = {
     user: {},
 }
 
-
-
 const authSlice = createSlice({
     name: 'auth',
     initialState,
-    reducers: {},
+    reducers: {
+        logout: (state) => {
+            state.authorized = false;
+            state.user = {};
+            sessionStorage.setItem('userAuth', JSON.stringify(false));
+            sessionStorage.removeItem('userData');
+        }
+    },
     extraReducers: (builder) => {
-        builder.addCase(authUser.fulfilled, (state, action: PayloadAction<object>) => {
-            state.authorized = true;
-            state.user = action.payload;
-        });
+        //authUser
+        builder
+            .addCase(authUser.fulfilled, (state, action: PayloadAction<object>) => {
+                state.authorized = true;
+                state.user = action.payload;
+                sessionStorage.setItem('userAuth', JSON.stringify(true));
+                sessionStorage.setItem('userData', JSON.stringify(action.payload));
+            })
+            .addCase(authUser.rejected, (state) => {
+                state.authorized = false;
+                sessionStorage.setItem('userAuth', JSON.stringify(false));
+            });
     }
 });
 
 export const authUser = createAsyncThunk(
     "auth/authUser",
-    async () => {
+    async ({email, password}: data, thunkAPI) => {
         try {
-            const response = await axios.get('https://jsonplaceholder.typicode.com/users', {
+            const response = await axios.get('http://generaluseapi.local/auth', {
                 params: {
-                    username: 'Bret',
-                    email: 'Sincere@april.biz',
+                    email: email,
+                    password: password,
                 }
             })
             return response.data;
+
         } catch (e) {
-            console.log(e);
+            const error = e as AxiosError;
+            return thunkAPI.rejectWithValue(error.message);
         }
     }
 );
+
+export const {logout} = authSlice.actions;
 
 export default authSlice.reducer;

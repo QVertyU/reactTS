@@ -1,13 +1,20 @@
 import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import {useDispatch} from "react-redux";
+import {AppDispatch} from "../state/store.ts";
+import {logout} from "../state/auth/authSlice.ts";
 
-const user = {
-    name: 'Tom Cook',
-    email: 'tom@example.com',
-    imageUrl:
-        'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+interface UserData {
+    name: string,
+    email: string,
 }
+
+let user: UserData;
+if (sessionStorage.getItem('userData') !== null && sessionStorage.getItem('userData') !== 'undefined') {
+    user = JSON.parse(sessionStorage.getItem('userData')!);
+}
+
 const navigation = [
     { name: 'Dashboard', href: '#', current: true },
     { name: 'Team', href: '#', current: false },
@@ -22,21 +29,18 @@ const userNavigation = [
     { name: 'Sign out', href: '#' },
 ]
 
-function classNames(...classes) {
+function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ')
 }
 
 export default function Home() {
+    const dispatch = useDispatch<AppDispatch>();
+    const signOut = () => {
+        dispatch(logout());
+    }
+
     return (
         <>
-            {/*
-        This example requires updating your template:
-
-        ```
-        <html class="h-full bg-gray-100">
-        <body class="h-full">
-        ```
-      */}
             <div className="min-h-full">
                 <Disclosure as="nav" className="bg-gray-800">
                     {({ open }) => (
@@ -88,7 +92,7 @@ export default function Home() {
                                                     <Menu.Button className="relative flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                                                         <span className="absolute -inset-1.5" />
                                                         <span className="sr-only">Open user menu</span>
-                                                        <img className="h-8 w-8 rounded-full" src={user.imageUrl} alt="" />
+                                                        <img className="h-8 w-8 rounded-full" src={'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'} alt="" />
                                                     </Menu.Button>
                                                 </div>
                                                 <Transition
@@ -102,8 +106,9 @@ export default function Home() {
                                                 >
                                                     <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                                                         {userNavigation.map((item) => (
-                                                            <Menu.Item key={item.name}>
-                                                                {({ active }) => (
+                                                            <Menu.Item key={item.name}
+                                                                       onClick={item.name === 'Sign out' ? signOut : null}>
+                                                                {({active}) => (
                                                                     <a
                                                                         href={item.href}
                                                                         className={classNames(
@@ -156,11 +161,11 @@ export default function Home() {
                                 <div className="border-t border-gray-700 pb-3 pt-4">
                                     <div className="flex items-center px-5">
                                         <div className="flex-shrink-0">
-                                            <img className="h-10 w-10 rounded-full" src={user.imageUrl} alt="" />
+                                            <img className="h-10 w-10 rounded-full" src={'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'} alt="" />
                                         </div>
                                         <div className="ml-3">
-                                            <div className="text-base font-medium leading-none text-white">{user.name}</div>
-                                            <div className="text-sm font-medium leading-none text-gray-400">{user.email}</div>
+                                            <div className="text-base font-medium leading-none text-white">{user?.name}</div>
+                                            <div className="text-sm font-medium leading-none text-gray-400">{user?.email}</div>
                                         </div>
                                         <button
                                             type="button"
@@ -188,7 +193,6 @@ export default function Home() {
                         </>
                     )}
                 </Disclosure>
-
                 <header className="bg-white shadow">
                     <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
                         <h1 className="text-3xl font-bold tracking-tight text-gray-900">Dashboard</h1>
