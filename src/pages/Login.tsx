@@ -64,9 +64,13 @@ export default function Login() {
                                     component={Input}
                                     name={'email'}
                                     props={{
-                                        type: 'email',
-                                        labelname: 'Email address',
-                                        autoComplete: 'email'
+                                        field: {
+                                            type: 'email',
+                                            autoComplete: 'email',
+                                        },
+                                        label: {
+                                            name: 'Email address',
+                                        },
                                     }}
                                 />
                             </div>
@@ -76,9 +80,13 @@ export default function Login() {
                                     component={Input}
                                     name={'password'}
                                     props={{
-                                        type: 'password',
-                                        labelname: 'Password',
-                                        autoComplete: 'password',
+                                        field: {
+                                            type: 'password',
+                                            autoComplete: 'password',
+                                        },
+                                        label: {
+                                            name: 'Password',
+                                        },
                                     }}
                                 />
                             </div>
@@ -86,7 +94,7 @@ export default function Login() {
                             <div>
                                 <button
                                     type="submit"
-                                    className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                    className={'flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'}
                                 >
                                     Sign in
                                 </button>

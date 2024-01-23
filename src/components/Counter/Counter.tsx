@@ -1,10 +1,10 @@
 import {useDispatch, useSelector} from "react-redux";
-import {AppDispatch, RootState} from "../state/store.ts";
+import {AppDispatch, RootState} from "../../state/store.ts";
 import Button from '@mui/material/Button';
-import {decrement, increment, incrementByPayload, decrementByPayload, incrementAsync} from "../state/counter/counterSlice.ts";
+import {decrement, increment, incrementByPayload, decrementByPayload, incrementAsync} from "../../state/counter/counterSlice.ts";
 
 
-function Counter() {
+export function Counter() {
     const count = useSelector((state: RootState) => state.counter.value);
     const dispatch = useDispatch<AppDispatch>();
 
@@ -27,5 +27,3 @@ function Counter() {
         </>
     );
 }
-
-export default Counter;
