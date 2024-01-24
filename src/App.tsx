@@ -6,7 +6,7 @@ import {Provider} from "react-redux";
 import {store} from "./state/store.ts";
 import PrivateRoute from "./components/PrivateRoute.tsx";
 import Navigation from "./components/Navigation.tsx";
-
+import {HelpButton} from "./components/HelpButton";
 function App() {
 
 
@@ -16,6 +16,7 @@ function App() {
                     <BrowserRouter>
                         <PrivateRoute>
                             <Navigation/>
+                            <HelpButton />
                         </PrivateRoute>
                         <Routes>
                             <Route path={'/'} element={

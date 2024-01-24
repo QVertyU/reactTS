@@ -9,7 +9,8 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "test": "jest"
   },
   "dependencies": {
     "@emotion/react": "^11.11.3",
@@ -20,11 +21,15 @@
     "@reduxjs/toolkit": "^2.0.1",
     "@tanstack/react-query": "^5.17.19",
     "axios": "^1.6.5",
+    "classnames": "^2.5.1",
     "formik": "^2.4.5",
+    "prettier": "^3.2.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^9.0.4",
     "react-router-dom": "^6.21.2",
+    "react-test-renderer": "^18.2.0",
+    "sass": "^1.70.0",
     "yup": "^1.3.3"
   },
   "devDependencies": {
@@ -36,8 +41,10 @@
     "@storybook/react": "^7.6.10",
     "@storybook/react-vite": "^7.6.10",
     "@storybook/test": "^7.6.10",
+    "@types/jest": "^29.5.11",
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",
+    "@types/react-test-renderer": "^18.0.7",
     "@typescript-eslint/eslint-plugin": "^6.14.0",
     "@typescript-eslint/parser": "^6.14.0",
     "@vitejs/plugin-react": "^4.2.1",
@@ -50,7 +57,8 @@
     "postcss": "^8.4.33",
     "storybook": "^7.6.10",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5.2.2",
+    "ts-jest": "^29.1.2",
+    "typescript": "^5.3.3",
     "vite": "^5.0.8"
   }
 }
